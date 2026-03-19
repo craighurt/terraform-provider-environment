@@ -5,9 +5,9 @@ import (
 	"flag"
 	"log"
 
-	"github.com/hashicorp/terraform-plugin-framework/providerserver"
-	fwprovider "github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/craighurt/terraform-provider-environment/internal/provider"
+	fwprovider "github.com/hashicorp/terraform-plugin-framework/provider"
+	"github.com/hashicorp/terraform-plugin-framework/providerserver"
 )
 
 func main() {
