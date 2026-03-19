@@ -1,0 +1,24 @@
+---
+layout: ""
+page_title: "Provider: Environment - Functions"
+description: |-
+  The Environment provider maps Shell environment variables to Terraform Functions.
+---
+
+# Environment Provider - Functions
+
+After declaring the Environment provider, you can use the `environment_variables` function to access environment variables.
+The function returns a map of environment variables, optionally filtered by regex and encoded if sensitive.
+
+## Example Usage
+
+{{tffile "examples/data-sources/environment_variables/data-source.tf"}}
+
+## Arguments
+
+- `filter` (optional, string): A regex pattern to filter environment variable names.
+- `sensitive` (optional, bool): If true, values are base64 encoded.
+
+## Return Type
+
+A map of strings where keys are environment variable names and values are their values (or base64 encoded if sensitive is true).
