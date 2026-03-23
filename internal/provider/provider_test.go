@@ -96,7 +96,7 @@ func TestAccEnvironmentVariablesDataSource(t *testing.T) {
 				}
 
 				output "env_vars" {
-					value = data.environment_variables.test.variables
+					value = data.environment_variables.test.items
 				}
 				`,
 				Check: resource.ComposeTestCheckFunc(

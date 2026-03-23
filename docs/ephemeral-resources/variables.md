@@ -22,4 +22,4 @@ Reads environment variables with optional filtering and encoding (ephemeral).
 
 ### Read-Only
 
-- `variables` (Map of String) Map of environment variables
+- `items` (Map of String) Map of environment variables

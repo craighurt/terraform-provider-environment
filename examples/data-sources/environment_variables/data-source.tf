@@ -29,15 +29,15 @@ data "environment_variables" "encoded" {
 
 # Use data source output in resources
 resource "null_resource" "all" {
-  triggers = data.environment_variables.all.variables
+  triggers = data.environment_variables.all.items
 }
 
 resource "null_resource" "regexp" {
-  triggers = data.environment_variables.regexp.variables
+  triggers = data.environment_variables.regexp.items
 }
 
 resource "null_resource" "encoded" {
-  triggers = data.environment_variables.encoded.variables
+  triggers = data.environment_variables.encoded.items
 }
 
 

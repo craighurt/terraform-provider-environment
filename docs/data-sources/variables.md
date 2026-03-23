@@ -28,31 +28,31 @@ terraform {
 
 provider "environment" {}
 
+# Data source example - reads all environment variables
 data "environment_variables" "all" {}
 
+# Data source with regex filter
 data "environment_variables" "regexp" {
   filter = "^LC_"
 }
 
+# Data source with filter and base64 encoding
 data "environment_variables" "encoded" {
   filter    = "TOKEN"
   sensitive = true
 }
 
-ephemeral "environment_variables" "ephemeral_example" {
-  filter = "HOME"
-}
-
+# Use data source output in resources
 resource "null_resource" "all" {
-  triggers = data.environment_variables.all.variables
+  triggers = data.environment_variables.all.items
 }
 
 resource "null_resource" "regexp" {
-  triggers = data.environment_variables.regexp.variables
+  triggers = data.environment_variables.regexp.items
 }
 
 resource "null_resource" "encoded" {
-  triggers = data.environment_variables.encoded.variables
+  triggers = data.environment_variables.encoded.items
 }
 ```
 
@@ -66,4 +66,4 @@ resource "null_resource" "encoded" {
 
 ### Read-Only
 
-- `variables` (Map of String) Map of environment variables
+- `items` (Map of String) Map of environment variables

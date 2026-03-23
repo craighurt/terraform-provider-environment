@@ -17,7 +17,7 @@ ephemeral "environment_variables" "secrets" {
 
 # Use ephemeral values in outputs or other contexts
 output "secrets" {
-  value       = ephemeral.environment_variables.secrets.variables
+  value       = ephemeral.environment_variables.secrets.items
   sensitive   = true
   description = "Sensitive environment variables (ephemeral, not stored in state)"
 }
@@ -29,6 +29,6 @@ ephemeral "environment_variables" "home_vars" {
 }
 
 output "user_environment" {
-  value       = ephemeral.environment_variables.home_vars.variables
+  value       = ephemeral.environment_variables.home_vars.items
   description = "User-related environment variables"
 }

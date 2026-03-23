@@ -62,7 +62,7 @@ ephemeral "environment_variables" "secrets" {
 # Use ephemeral values in provider configurations or other ephemeral contexts
 resource "some_resource" "example" {
   # Ephemeral values can be used here if the attribute supports ephemeral
-  config = ephemeral.environment_variables.secrets.variables
+  config = ephemeral.environment_variables.secrets.items
 }
 ```
 

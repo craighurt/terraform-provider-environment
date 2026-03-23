@@ -5,9 +5,10 @@ description: |-
   The Environment provider maps Shell environment variables to Terraform Functions.
 ---
 
-# environment::variables() Function
+# Environment Provider - Functions
 
-Returns a map of environment variables from the system, optionally filtered by regex pattern and encoded as base64.
+After declaring the Environment provider, you can use the `environment_variables` function to access environment variables.
+The function returns a map of environment variables, optionally filtered by regex and encoded if sensitive.
 
 ## Example Usage
 
@@ -18,43 +19,48 @@ terraform {
       source  = "registry.terraform.io/craighurt/environment"
       version = "1.4.1"
     }
+    null = {
+      source  = "hashicorp/null"
+      version = "~> 3.0"
+    }
   }
 }
 
 provider "environment" {}
 
-# Get all environment variables
-locals {
-  all_vars = environment::variables(null, null)
+# Data source example - reads all environment variables
+data "environment_variables" "all" {}
+
+# Data source with regex filter
+data "environment_variables" "regexp" {
+  filter = "^LC_"
 }
 
-# Get only variables matching a pattern
-locals {
-  aws_vars = environment::variables("^AWS_", null)
+# Data source with filter and base64 encoding
+data "environment_variables" "encoded" {
+  filter    = "TOKEN"
+  sensitive = true
 }
 
-# Get variables with values encoded as base64
-locals {
-  encoded_vars = environment::variables(null, true)
+# Use data source output in resources
+resource "null_resource" "all" {
+  triggers = data.environment_variables.all.items
 }
 
-# Get specific variables filtered and encoded
-locals {
-  tokens = environment::variables("_TOKEN$", true)
+resource "null_resource" "regexp" {
+  triggers = data.environment_variables.regexp.items
 }
 
-# Use in a resource
-resource "local_file" "env_vars" {
-  content  = jsonencode(environment::variables(null, null))
-  filename = "${path.module}/env_vars.json"
+resource "null_resource" "encoded" {
+  triggers = data.environment_variables.encoded.items
 }
 ```
 
 ## Arguments
 
-- `filter` (required, string): A regex pattern to filter environment variable names. Pass `null` to return all variables.
-- `sensitive` (required, bool): If `true`, values are base64 encoded. Pass `null` or `false` to return values as-is.
+- `filter` (optional, string): A regex pattern to filter environment variable names.
+- `sensitive` (optional, bool): If true, values are base64 encoded.
 
 ## Return Type
 
-A map of strings where keys are environment variable names and values are their corresponding values (or base64 encoded if `sensitive` is true).
+A map of strings where keys are environment variable names and values are their values (or base64 encoded if sensitive is true).
