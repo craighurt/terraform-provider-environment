@@ -21,7 +21,7 @@ func NewEnvironmentVariablesFunction() function.Function {
 }
 
 func (f *EnvironmentVariablesFunction) Metadata(ctx context.Context, req function.MetadataRequest, resp *function.MetadataResponse) {
-	resp.Name = "environment_variables"
+	resp.Name = "variables"
 }
 
 func (f *EnvironmentVariablesFunction) Definition(ctx context.Context, req function.DefinitionRequest, resp *function.DefinitionResponse) {

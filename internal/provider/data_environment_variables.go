@@ -19,7 +19,7 @@ type EnvironmentVariablesDataSource struct{}
 type EnvironmentVariablesDataSourceModel struct {
 	Filter    types.String `tfsdk:"filter"`
 	Sensitive types.Bool   `tfsdk:"sensitive"`
-	Variables types.Map    `tfsdk:"variables"`
+	Items     types.Map    `tfsdk:"items"`
 }
 
 func NewEnvironmentVariablesDataSource() datasource.DataSource {
@@ -42,7 +42,7 @@ func (d *EnvironmentVariablesDataSource) Schema(ctx context.Context, req datasou
 				Description: "Whether to base64 encode values",
 				Optional:    true,
 			},
-			"variables": schema.MapAttribute{
+			"items": schema.MapAttribute{
 				Description: "Map of environment variables",
 				ElementType: types.StringType,
 				Computed:    true,
@@ -106,6 +106,6 @@ func (d *EnvironmentVariablesDataSource) Read(ctx context.Context, req datasourc
 		return
 	}
 
-	data.Variables = mapValue
+	data.Items = mapValue
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }

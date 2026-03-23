@@ -22,7 +22,7 @@ func TestAccEnvironmentVariablesFunction(t *testing.T) {
 				provider "environment" {}
 
 				locals {
-					env_vars = provider::environment::environment_variables(null, null)
+					env_vars = provider::environment::variables(null, null)
 				}
 
 				output "env_vars" {
@@ -55,7 +55,7 @@ func TestAccEnvironmentVariablesFunctionWithFilter(t *testing.T) {
 				provider "environment" {}
 
 				locals {
-					env_vars = provider::environment::environment_variables("HOME", null)
+					env_vars = provider::environment::variables("HOME", null)
 				}
 
 				output "env_vars" {
@@ -96,7 +96,7 @@ func TestAccEnvironmentVariablesDataSource(t *testing.T) {
 				}
 
 				output "env_vars" {
-					value = data.environment_variables.test.variables
+					value = data.environment_variables.test.items
 				}
 				`,
 				Check: resource.ComposeTestCheckFunc(

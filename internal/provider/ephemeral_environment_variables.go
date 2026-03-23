@@ -19,7 +19,7 @@ type EnvironmentVariablesEphemeralResource struct{}
 type EnvironmentVariablesEphemeralModel struct {
 	Filter    types.String `tfsdk:"filter"`
 	Sensitive types.Bool   `tfsdk:"sensitive"`
-	Variables types.Map    `tfsdk:"variables"`
+	Items     types.Map    `tfsdk:"items"`
 }
 
 func NewEnvironmentVariablesEphemeralResource() ephemeral.EphemeralResource {
@@ -42,7 +42,7 @@ func (e *EnvironmentVariablesEphemeralResource) Schema(ctx context.Context, req 
 				Description: "Whether to base64 encode values",
 				Optional:    true,
 			},
-			"variables": schema.MapAttribute{
+			"items": schema.MapAttribute{
 				Description: "Map of environment variables",
 				ElementType: types.StringType,
 				Computed:    true,
@@ -106,6 +106,6 @@ func (e *EnvironmentVariablesEphemeralResource) Open(ctx context.Context, req ep
 		return
 	}
 
-	data.Variables = mapValue
+	data.Items = mapValue
 	resp.Diagnostics.Append(resp.Result.Set(ctx, &data)...)
 }
