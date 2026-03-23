@@ -7,41 +7,26 @@ description: |-
 
 # Environment Provider
 
-The Environment provider exposes Shell environment variables as Terraform Functions and Data Sources.
+The Environment provider exposes Shell environment variables as Terraform Functions.
 
-It supports filtering a list of variables or just a single one. You can also mark the result as `sensitive`.
-
-This provider is based on the original from EppO/environment but expands to support both function and ephemeral resources.
+It supports filtering a list of variables or just a single one. You can also mark the result of the Function as `sensitive`
 
 ## Example Usage
 
-### Using Provider Function
-
 ```terraform
-provider "environment" {}
-
-locals {
-  all     = provider::environment::environment_variables(null, null)
-  regexp  = provider::environment::environment_variables("^LC_", null)
-  encoded = provider::environment::environment_variables("TOKEN", true)
+terraform {
+  required_providers {
+    environment = {
+      source  = "registry.terraform.io/craighurt/environment"
+      version = "1.4.1"
+    }
+    null = {
+      source  = "hashicorp/null"
+      version = "~> 3.0"
+    }
+  }
 }
 
-resource "null_resource" "all" {
-  triggers = local.all
-}
-
-resource "null_resource" "regexp" {
-  triggers = local.regexp
-}
-
-resource "null_resource" "encoded" {
-  triggers = local.encoded
-}
-```
-
-### Using Data Source
-
-```terraform
 provider "environment" {}
 
 data "environment_variables" "all" {}
@@ -55,6 +40,10 @@ data "environment_variables" "encoded" {
   sensitive = true
 }
 
+ephemeral "environment_variables" "ephemeral_example" {
+  filter = "HOME"
+}
+
 resource "null_resource" "all" {
   triggers = data.environment_variables.all.variables
 }
@@ -65,23 +54,6 @@ resource "null_resource" "regexp" {
 
 resource "null_resource" "encoded" {
   triggers = data.environment_variables.encoded.variables
-}
-```
-
-### Using Ephemeral Resource
-
-```terraform
-provider "environment" {}
-
-ephemeral "environment_variables" "secrets" {
-  filter    = "SECRET"
-  sensitive = true
-}
-
-# Use ephemeral values in provider configurations or other ephemeral contexts
-resource "some_resource" "example" {
-  # Ephemeral values can be used here if the attribute supports ephemeral
-  config = ephemeral.environment_variables.secrets.variables
 }
 ```
 

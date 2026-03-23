@@ -1,7 +1,6 @@
 # Terraform Provider Environment [![release](https://github.com/craighurt/terraform-provider-environment/actions/workflows/release.yml/badge.svg)](https://github.com/craighurt/terraform-provider-environment/actions/workflows/release.yml)
 
-Terraform provider able to detect environment settings.
-Useful for debugging terraform running in CI.
+Terraform provider used to read environment variables during processing.
 
 ## Test
 
@@ -12,7 +11,7 @@ make testacc
 
 ## Build
 
-Run the following command to build the provider
+Run the following command to build the provider:
 
 ```shell
 make build
@@ -32,9 +31,9 @@ make install
 provider "environment" {}
 
 locals {
-  all     = provider::environment::environment_variables(null, null)
-  regexp  = provider::environment::environment_variables("^LC_", null)
-  encoded = provider::environment::environment_variables("TOKEN", true)
+  all     = provider::environment::variables(null, null)
+  regexp  = provider::environment::variables("^LC_", null)
+  encoded = provider::environment::variables("TOKEN", true)
 }
 
 resource "null_resource" "all" {

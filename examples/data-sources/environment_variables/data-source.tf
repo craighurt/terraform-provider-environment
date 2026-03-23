@@ -2,7 +2,7 @@ terraform {
   required_providers {
     environment = {
       source  = "registry.terraform.io/craighurt/environment"
-      version = "1.4.0"
+      version = "1.4.1"
     }
     null = {
       source  = "hashicorp/null"
@@ -13,21 +13,21 @@ terraform {
 
 provider "environment" {}
 
+# Data source example - reads all environment variables
 data "environment_variables" "all" {}
 
+# Data source with regex filter
 data "environment_variables" "regexp" {
   filter = "^LC_"
 }
 
+# Data source with filter and base64 encoding
 data "environment_variables" "encoded" {
   filter    = "TOKEN"
   sensitive = true
 }
 
-ephemeral "environment_variables" "ephemeral_example" {
-  filter = "HOME"
-}
-
+# Use data source output in resources
 resource "null_resource" "all" {
   triggers = data.environment_variables.all.variables
 }
@@ -39,4 +39,5 @@ resource "null_resource" "regexp" {
 resource "null_resource" "encoded" {
   triggers = data.environment_variables.encoded.variables
 }
+
 

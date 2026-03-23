@@ -3,7 +3,7 @@ HOSTNAME=registry.terraform.io
 NAMESPACE=craighurt
 NAME=environment
 BINARY=terraform-provider-${NAME}
-VERSION=1.4.0
+VERSION=1.4.1
 OS_ARCH=linux_amd64
 
 default: install
@@ -11,10 +11,13 @@ default: install
 fmt:
 	go fmt
 
+docs:
+	go run github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs generate
+
 build:
 	go build -o ${BINARY}
 
-release:
+release: docs
 	GOOS=darwin GOARCH=amd64 go build -o ./bin/${BINARY}_${VERSION}_darwin_amd64
 	GOOS=freebsd GOARCH=386 go build -o ./bin/${BINARY}_${VERSION}_freebsd_386
 	GOOS=freebsd GOARCH=amd64 go build -o ./bin/${BINARY}_${VERSION}_freebsd_amd64
