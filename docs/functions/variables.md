@@ -1,11 +1,11 @@
 ---
-layout: ""
-page_title: "Provider: Environment - Functions"
+page_title: "variables Function - terraform-provider-environment"
+subcategory: ""
 description: |-
-  The Environment provider maps Shell environment variables to Terraform Functions.
+  Returns environment variables, optionally filtered and encoded.
 ---
 
-# provider::environment::variables() Function
+# variables Function
 
 Returns a map of environment variables from the system, optionally filtered by regex and encoded as base64.
 
@@ -16,7 +16,7 @@ terraform {
   required_providers {
     environment = {
       source  = "registry.terraform.io/craighurt/environment"
-      version = "1.4.1"
+      version = "1.4.2"
     }
   }
 }

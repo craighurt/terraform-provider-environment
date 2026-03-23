@@ -2,7 +2,7 @@ terraform {
   required_providers {
     environment = {
       source  = "registry.terraform.io/craighurt/environment"
-      version = "1.4.1"
+      version = "1.4.2"
     }
   }
 }
